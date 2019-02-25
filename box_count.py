@@ -61,12 +61,14 @@ def box_counting(pos, rad, side_L, nb=10):
     Returns:
         a float with the box counting dimension
     """
+    tot = 0 # the total number of boxes
     count = 0 # the number of boxes occupied
     dis = side_L/nb   # the length of each box to be counted
     #iterate over the three dimensions
     for i in range(0,nb):
         for j in range(0,nb):
             for k in range(0,nb):
+                tot += 1
                 #iterate over all of the particles
                 for p in range(len(pos)):
                     if ((i*dis <= pos[p][0] < (i+1)*dis) &
@@ -75,11 +77,11 @@ def box_counting(pos, rad, side_L, nb=10):
                         # first determine if the center of the particle is in the box
                         count += 1
                         break # we only need to add 1 particle / box
-                        
+
                     # check if the edge of the box intersects the sphere
                     # this is slower so we separate it    
                     elif intersect(pos[p][0],pos[p][1],pos[p][2],rad,i*dis,j*dis,k*dis,dis):
                         count += 1
                         break
-    return count
+    return count, tot
 
