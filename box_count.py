@@ -1,3 +1,11 @@
+#================================================#
+# A fixed-grid box counting algorithm that could #
+# be used to help determine the fractal dimension#
+# of a group of sperical particles in a cubic    #
+# container. The return froma a call to this     #
+# function might be taken for the calculation    #
+# S = ln(N)/ln(1/e)                              #
+
 def intersect(sx,sy,sz,rad,bx,by,bz,l):
     """
     Determine if a sphere and a box overlap
@@ -32,13 +40,18 @@ def intersect(sx,sy,sz,rad,bx,by,bz,l):
 
     if ((fx & (xs or xl)) or (fy & (ys or yl)) or (fz & (zs or zl))):
         return True
+        
     # if within two planes and intersecting two orthogonal planes
-    if ((bx <= sx <= (bx+l)) & ((yl & zl) or (yl & zs) or (ys & zl) or (ys & zs))):
+    if ((bx <= sx <= (bx+l)) & 
+        ((yl & zl) or (yl & zs) or (ys & zl) or (ys & zs))):
         return True
-    if ((by <= sy <= (by+l)) & ((xl & zl) or (xl & zs) or (xs & zl) or (xs & zs))):
+    if ((by <= sy <= (by+l)) & 
+        ((xl & zl) or (xl & zs) or (xs & zl) or (xs & zs))):
         return True
-    if ((bz <= sz <= (bz+l)) & ((yl & xl) or (yl & xs) or (ys & xl) or (ys & xs))):
+    if ((bz <= sz <= (bz+l)) & 
+        ((yl & xl) or (yl & xs) or (ys & xl) or (ys & xs))):
         return True
+
     # if intersecting three planes return true
     if (xs or xl) & (ys or yl) & (zs or zl):
         return True 
@@ -64,6 +77,7 @@ def box_counting(pos, rad, side_L, nb=10):
     tot = 0 # the total number of boxes
     count = 0 # the number of boxes occupied
     dis = side_L/nb   # the length of each box to be counted
+
     #iterate over the three dimensions
     for i in range(0,nb):
         for j in range(0,nb):
@@ -80,7 +94,13 @@ def box_counting(pos, rad, side_L, nb=10):
 
                     # check if the edge of the box intersects the sphere
                     # this is slower so we separate it    
-                    elif intersect(pos[p][0],pos[p][1],pos[p][2],rad,i*dis,j*dis,k*dis,dis):
+                    elif intersect(pos[p][0],
+                                   pos[p][1],
+                                   pos[p][2],
+                                   rad,
+                                   i*dis,
+                                   j*dis,
+                                   k*dis,dis):
                         count += 1
                         break
     return count, tot
