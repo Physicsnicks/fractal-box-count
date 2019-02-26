@@ -5,6 +5,7 @@
 # container. The return froma a call to this     #
 # function might be taken for the calculation    #
 # S = ln(N)/ln(1/e)                              #
+#================================================#
 
 def intersect(sx,sy,sz,rad,bx,by,bz,l):
     """
